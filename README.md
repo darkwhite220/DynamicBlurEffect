@@ -6,5 +6,5 @@ A simple poject demostrating Dynamic Blur Effect with backward compatiblity.
 
 ## Learning resource
 
-- [A Blurring View for Android]([https://medium.com/androiddevelopers/easing-in-to-easing-curves-in-jetpack-compose-d72893eeeb4d](https://developers.500px.com/a-blurring-view-for-android-7f33d41a047d))
+- [A Blurring View for Android](https://developers.500px.com/a-blurring-view-for-android-7f33d41a047d)
 - [Redirecting Rendering](https://github.com/android/snippets/blob/main/compose/snippets/src/main/java/com/example/compose/snippets/graphics/AdvancedGraphicsSnippets.kt#L92)
