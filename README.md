@@ -1,6 +1,15 @@
 # Dynamic Blur Effect 
 
-A simple poject demostrating Dynamic Blur Effect with backward compatiblity.
+A simple poject demostrating Dynamic Blur Effect with backward compatiblity .
+
+Steps:
+
+  - Redirect parent composable drawing into **Android Picture**. *you need androidx.compose.ui:ui-graphics:1.6.0-alpha01*
+
+  - Create a **Bitmap** from **Picture**
+
+  - **Blur** the bitmap.
+
 
 [untitled.webm](https://github.com/darkwhite220/DynamicBlurEffect/assets/53045980/6ad01beb-58b6-4bf5-81eb-ea5bc471b711)
 
