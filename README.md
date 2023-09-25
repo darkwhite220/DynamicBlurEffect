@@ -1,6 +1,8 @@
 # Dynamic Blur Effect 
 
-A simple poject demostrating Dynamic Blur Effect with backward compatiblity .
+A simple poject demostrating Dynamic Blur Effect with backward compatiblity.
+
+[**Straight to the code**](https://github.com/darkwhite220/DynamicBlurEffect/blob/master/app/src/main/java/earth/darkwhite/dynamicblureffect/MainActivity.kt)
 
 Steps:
 
