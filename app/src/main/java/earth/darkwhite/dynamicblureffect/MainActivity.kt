@@ -1,5 +1,6 @@
 package earth.darkwhite.dynamicblureffect
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Picture
 import android.os.Build
@@ -53,6 +54,7 @@ fun DynamicBlur() {
   val picture = remember { Picture() }
   var onPictureDraw by remember { mutableStateOf(false) }
   var offset by remember { mutableStateOf(IntOffset(0, 0)) }
+  val context = LocalContext.current
   
   Box(modifier = Modifier.fillMaxSize()) {
     Image(
@@ -92,7 +94,9 @@ fun DynamicBlur() {
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) { // For backward compatibility
         val blurredBitmap = legacyBlurImage(
           bitmap = bitmap,
-          blurRadio = 25f,
+          context = context,
+          blurRadio = 15f,
+//        blurLayer = 1, // if more blur needed, uncomment and tweak it
         )
         BlurImage(
           modifier = Modifier,
@@ -128,22 +132,25 @@ private fun BlurImage(
 }
 
 @Suppress("DEPRECATION")
-@Composable
 private fun legacyBlurImage(
   bitmap: Bitmap,
-  blurRadio: Float,
+  context: Context,
+  blurRadio: Float = 25f,
+  blurLayer: Int = 1,
 ): Bitmap {
-  val currentBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-  val renderScript = RenderScript.create(LocalContext.current)
-  val bitmapAlloc = Allocation.createFromBitmap(renderScript, currentBitmap)
-  ScriptIntrinsicBlur.create(renderScript, bitmapAlloc.element).apply {
-    setRadius(blurRadio)
-    setInput(bitmapAlloc)
-    forEach(bitmapAlloc)
+  val blurredBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+  val renderScript = RenderScript.create(context)
+  for (i in 0 until blurLayer) {
+    val bitmapAlloc = Allocation.createFromBitmap(renderScript, blurredBitmap)
+    ScriptIntrinsicBlur.create(renderScript, bitmapAlloc.element).apply {
+      setRadius(blurRadio)
+      setInput(bitmapAlloc)
+      forEach(bitmapAlloc)
+    }
+    bitmapAlloc.copyTo(blurredBitmap)
   }
-  bitmapAlloc.copyTo(currentBitmap)
   renderScript.destroy()
-  return currentBitmap
+  return blurredBitmap
 }
 
 private fun createBitmapFromPicture(picture: Picture): Bitmap {
